@@ -1,4 +1,4 @@
-TARGET = bin/final
+TARGET = bin/main
 SRC = $(wildcard src/*.c)
 OBJ = $(patsubst src/*.c, obj/%.o, $(SRC))
 
@@ -9,4 +9,4 @@ clean:
 	rm -f bin/*
 
 $(TARGET): $(OBJ)
-	gcc -o $@ $? -I./inc
+	gcc -o $@ $? -I./inc -Wall

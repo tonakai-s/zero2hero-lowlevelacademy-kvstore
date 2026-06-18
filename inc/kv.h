@@ -10,7 +10,7 @@ typedef struct {
 
 typedef struct {
     size_t capacity;
-    size_t size;
+    size_t count;
     kv_entrie_t *entries;
 } kv_t;
 

@@ -8,7 +8,7 @@ int main() {
     
     assert(table != NULL);
     assert(table->capacity == 3);
-    assert(table->size == 0);
+    assert(table->count == 0);
 
     kv_free(table);
     return 0;
