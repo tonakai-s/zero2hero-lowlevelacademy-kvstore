@@ -1,0 +1,20 @@
+#ifndef KV_H
+#define KV_H
+
+#include <stdlib.h>
+
+typedef struct {
+    char *key;
+    char *value;
+} kv_entrie_t;
+
+typedef struct {
+    size_t capacity;
+    size_t size;
+    kv_entrie_t *entries;
+} kv_t;
+
+kv_t *kv_init(size_t capacity);
+void kv_free(kv_t *table);
+
+#endif

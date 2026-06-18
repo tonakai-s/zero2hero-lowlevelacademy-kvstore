@@ -1,0 +1,21 @@
+#include <kv.h>
+
+kv_t *kv_init(size_t capacity) {
+    if(capacity == 0) return NULL;
+
+    kv_t *table = malloc(sizeof(kv_t));
+    if(table == NULL) return NULL;
+
+    table->capacity = capacity;
+    table->size = 0;
+    table->entries = calloc(sizeof(kv_entrie_t), capacity);
+
+    if(table->entries == NULL) return NULL;
+    return table;
+}
+
+void kv_free(kv_t *table) {
+    if(table == NULL || table->entries == NULL) return;
+    free(table->entries);
+    free(table);
+}
