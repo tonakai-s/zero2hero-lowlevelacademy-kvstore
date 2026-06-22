@@ -1,8 +1,8 @@
 #include <kv.h>
 #include <string.h>
 
-size_t hash(char *value, int capacity) {
-    size_t hash = 0x13381338deedfeef;
+size_t hash(const char *value, int capacity) {
+    size_t hash = 0x13371337deadbeef;
 
     while(*value) {
         hash ^= *value;
@@ -15,7 +15,7 @@ size_t hash(char *value, int capacity) {
     return hash % capacity;
 }
 
-int kv_put(kv_t *db, char *key, char *value) {
+int kv_put(kv_t *db, const char *key, const char *value) {
     if(!db || !key || !value) return -1;
 
     size_t idx = hash(key, db->capacity);

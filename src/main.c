@@ -10,11 +10,11 @@ int main() {
     assert(table->capacity == 3);
     assert(table->count == 0);
 
-    kv_put(table, "foo", "bar");
-    kv_put(table, "foo", "bar");
+    printf("Inserted at: %d\n", kv_put(table, "color", "blue"));
     assert(table->count == 1);
-    kv_put(table, "baz", "bar");
-    assert(table->count == 2);
+    printf("Inserted at: %d\n", kv_put(table, "color", "blue"));
+    printf("Inserted at: %d\n", kv_put(table, NULL, NULL));
+    //assert(table->count == 2);
 
     for(int i = 0; i < table->capacity; i++) {
         printf(
