@@ -1,4 +1,58 @@
 #include <kv.h>
+#include <string.h>
+
+size_t hash(char *value, int capacity) {
+    size_t hash = 0x13381338deedfeef;
+
+    while(*value) {
+        hash ^= *value;
+        hash = hash << 8;
+        hash += *value;
+
+        value++;
+    }
+
+    return hash % capacity;
+}
+
+int kv_put(kv_t *db, char *key, char *value) {
+    if(!db || !key || !value) return -1;
+
+    size_t idx = hash(key, db->capacity);
+
+    for(int i = 0; i < db->capacity - 1; i++) {
+        size_t search_idx = (idx + i) % db->capacity;
+
+        kv_entrie_t *entry = &db->entries[search_idx];
+
+        // TOMBSTONE is an integer, would segfault in strcmp;
+        if(entry->key && entry->key != (void *)TOMBSTONE && !strcmp(entry->key, key)) {
+            // Get the ownership of the value;
+            char *new_value = strdup(value);
+            if(!new_value) return -1;
+            free(entry->value);
+            entry->value = new_value;
+            return search_idx;
+        }
+
+        if(!entry->key || entry->key == (void *)TOMBSTONE) {
+            char *new_value = strdup(value);
+            char *new_key = strdup(key);
+            if(!new_value || !new_key) {
+                free(new_value);
+                free(new_key);
+                return -1;
+            }
+            entry->value = new_value;
+            entry->key = new_key;
+            db->count++;
+
+            return search_idx;
+        }
+    }
+
+    return -2;
+}
 
 kv_t *kv_init(size_t capacity) {
     if(capacity == 0) return NULL;
