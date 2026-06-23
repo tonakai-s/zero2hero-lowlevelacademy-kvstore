@@ -113,8 +113,8 @@ kv_t *kv_init(size_t capacity) {
     return table;
 }
 
-int kv_free(kv_t *db) {
-    if(db == NULL) return -1;
+void kv_free(kv_t *db) {
+    if(db == NULL) return;
     for(int i = 0; i < db->capacity; i++) {
         kv_entrie_t *e = &db->entries[i];
 
@@ -130,5 +130,5 @@ int kv_free(kv_t *db) {
     free(db->entries);
     free(db);
 
-    return 0;
+    return;
 }
