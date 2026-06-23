@@ -10,11 +10,8 @@ int main() {
     assert(table->capacity == 3);
     assert(table->count == 0);
 
-    printf("Inserted at: %d\n", kv_put(table, "color", "blue"));
-    assert(table->count == 1);
-    printf("Inserted at: %d\n", kv_put(table, "color", "blue"));
-    printf("Inserted at: %d\n", kv_put(table, NULL, NULL));
-    //assert(table->count == 2);
+    kv_put(table, "foo", "bar");
+    kv_put(table, "baz", "John Doe");
 
     for(int i = 0; i < table->capacity; i++) {
         printf(
@@ -23,6 +20,11 @@ int main() {
             table->entries[i].value
         );
     }
+
+    char *val = kv_get(table, "foo");
+    char *val2 = kv_get(table, "baz");
+    char *val3 = kv_get(table, "not_found");
+    printf("%s %s %s\n", val, val2, val3);
     kv_free(table);
     return 0;
 }

@@ -15,6 +15,26 @@ size_t hash(const char *value, int capacity) {
     return hash % capacity;
 }
 
+char *kv_get(kv_t *db, char *key) {
+    if(!db || !key) return NULL;
+
+    size_t idx = hash(key, db->capacity);
+
+    for(int i = 0; i < db->capacity - 1; i++) {
+        size_t search_idx = (idx + i) % db->capacity;
+
+        kv_entrie_t *entry = &db->entries[search_idx];
+
+        if(entry->key == NULL) return NULL;
+
+        if(entry->key && entry->key != TOMBSTONE && !strcmp(entry->key, key)){
+            return entry->value;
+        }
+    }
+
+    return NULL;
+}
+
 int kv_put(kv_t *db, char *key, char *value) {
     if(!db || !key || !value) return -1;
 
@@ -32,7 +52,6 @@ int kv_put(kv_t *db, char *key, char *value) {
             if(!new_value) return -1;
             free(entry->value);
             entry->value = new_value;
-            return 1;
             return search_idx;
         }
 
@@ -48,7 +67,6 @@ int kv_put(kv_t *db, char *key, char *value) {
             entry->key = new_key;
             db->count++;
 
-            return 1;
             return search_idx;
         }
     }
