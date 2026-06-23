@@ -113,8 +113,22 @@ kv_t *kv_init(size_t capacity) {
     return table;
 }
 
-void kv_free(kv_t *table) {
-    if(table == NULL || table->entries == NULL) return;
-    free(table->entries);
-    free(table);
+int kv_free(kv_t *db) {
+    if(db == NULL) return -1;
+    for(int i = 0; i < db->capacity; i++) {
+        kv_entrie_t *e = &db->entries[i];
+
+        if(e->key && e->key != TOMBSTONE) {
+            free(e->key);
+            free(e->value);
+            e->key = NULL;
+            e->value = NULL;
+            db->count--;
+        }
+    }
+
+    free(db->entries);
+    free(db);
+
+    return 0;
 }

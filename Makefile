@@ -9,4 +9,4 @@ clean:
 	rm -f bin/*
 
 $(TARGET): $(OBJ)
-	gcc -o $@ $? -I./inc -Wall
+	gcc -g -o $@ $? -I./inc -Wall
