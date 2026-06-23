@@ -32,6 +32,7 @@ int kv_put(kv_t *db, char *key, char *value) {
             if(!new_value) return -1;
             free(entry->value);
             entry->value = new_value;
+            return 1;
             return search_idx;
         }
 
@@ -47,6 +48,7 @@ int kv_put(kv_t *db, char *key, char *value) {
             entry->key = new_key;
             db->count++;
 
+            return 1;
             return search_idx;
         }
     }
